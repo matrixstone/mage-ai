@@ -1,0 +1,4 @@
+connector_type: mangodb
+connection_string: "mongodb://localhost:27017/"
+database_name: customersdb
+collection_name: customers
