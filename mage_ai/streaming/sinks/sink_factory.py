@@ -26,10 +26,10 @@ class SinkFactory:
             from mage_ai.streaming.sinks.opensearch import OpenSearchSink
 
             return OpenSearchSink(config, **kwargs)
-        elif connector_type == SinkType.MANGODB:
-            from mage_ai.streaming.sinks.mongodb import MangoDbSink
+        elif connector_type == SinkType.MONGODB:
+            from mage_ai.streaming.sinks.mongodb import MongoDbSink
 
-            return MangoDbSink(config, **kwargs)
+            return MongoDbSink(config, **kwargs)
         raise Exception(
             f'Ingesting data to {connector_type} is not supported in streaming pipelines yet.',
         )

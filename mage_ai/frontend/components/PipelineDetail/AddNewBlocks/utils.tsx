@@ -42,7 +42,7 @@ const getDataSourceTypes = (
         DataSourceTypeEnum.KAFKA,
         DataSourceTypeEnum.KINESIS,
         DataSourceTypeEnum.OPENSEARCH,
-        DataSourceTypeEnum.MANGODB,
+        DataSourceTypeEnum.MONGODB,
       ],
       [BlockTypeEnum.TRANSFORMER]: [
         DataSourceTypeEnum.GENERIC,
