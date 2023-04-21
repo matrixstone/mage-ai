@@ -7,22 +7,27 @@ from pymongo import MongoClient
 
 
 @dataclass
-class MangoDbConfig(BaseConfig):
-    connection_string: str  # url to connect python to mongodb using pymongo
+class MongoDbConfig(BaseConfig):
+    connection_string: str
     database_name: str
     collection_name: str
 
 
-class MangoDbSink(BaseSink):
-    config_class = MangoDbConfig
+class MongoDbSink(BaseSink):
+    config_class = MongoDbConfig
 
     def init_client(self):
         self.client = MongoClient(self.config.connection_string)
         self.database = self.client[self.config.database_name]
         self.collection = self.database[self.config.collection_name]
 
+    def write(self, data: Dict):
+        self.collection.insert_one({"_source": data})
+        self._print(f'[MongoDB] Ingest data {data}, time={time.time()}')
+
     def batch_write(self, data: List[Dict]):
         if not data:
             return
-        self.collection.insert_many(data)
-        self._print(f'Batch ingest {len(data)} records, time={time.time()}. Sample: {data[0]}')
+        docs = [{'_source': doc} for doc in data]
+        self.collection.insert_many(docs)
+        self._print(f'[MongoDB] Batch ingest {len(data)} records, time={time.time()}.')

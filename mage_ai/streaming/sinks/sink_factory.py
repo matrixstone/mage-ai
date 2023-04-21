@@ -24,10 +24,10 @@ class SinkFactory:
             return KinesisSink(config, **kwargs)
         elif connector_type == SinkType.OPENSEARCH:
             from mage_ai.streaming.sinks.opensearch import OpenSearchSink
-        
+
             return OpenSearchSink(config, **kwargs)
         elif connector_type == SinkType.MANGODB:
-            from mage_ai.streaming.sinks.opensearch import MangoDbSink
+            from mage_ai.streaming.sinks.mongodb import MangoDbSink
 
             return MangoDbSink(config, **kwargs)
         raise Exception(
