@@ -10,11 +10,13 @@ from mage_ai.io.config import BaseConfigLoader, ConfigKey
 from mage_ai.io.export_utils import clean_df_for_export, infer_dtypes
 from mage_ai.io.sql import BaseSQL
 from mage_ai.io.utils import format_value
+from mage_ai.server.logger import Logger
 from mage_ai.shared.utils import (
     convert_pandas_dtype_to_python_type,
     convert_python_type_to_redshift_type,
 )
 
+logger = Logger().new_server_logger(__name__)
 
 class Redshift(BaseSQL):
     """
@@ -33,6 +35,7 @@ class Redshift(BaseSQL):
         """
         Opens a connection to the Redshift cluster.
         """
+        logger.info(f'TESTING Opening connection to Redshift cluster: {self.settings}')
         with self.printer.print_msg('Connecting to Redshift cluster'):
             connect_options = {}
             for key in [
@@ -246,6 +249,7 @@ class Redshift(BaseSQL):
                         values = ', '.join(values)
                         query = f'INSERT INTO {full_table_name} ({columns})\nVALUES {values}'
 
+                        logger.info(f'TESTING redshift insert query_string: {query}')
                         cur.execute(query)
 
                 self.conn.commit()
